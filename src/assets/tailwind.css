@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'RobotoFlex';
+    src: local('RobotoFlex'), url('./fonts/RobotoFlex.woff2') format('woff2-variations');
+    font-style: oblique 0deg -10deg;
+  }
+  body {
+    @apply bg-white text-gray-900;
+  }
+  *::selection {
+    @apply bg-green-700 text-white;
+  }
+  *:focus {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    @apply w-2 bg-transparent;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-50/50;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded bg-gray-200;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+  ::-webkit-inner-spin-button {
+    @apply hidden;
+  }
+  ::-webkit-slider-container {
+    @apply h-1 min-h-0;
+  }
+  ::-webkit-slider-runnable-track {
+    @apply inset-0 h-4 text-gray-900;
+  }
+  ::-webkit-slider-thumb {
+    @apply relative h-4 w-4 appearance-none rounded-full bg-white ring-1 ring-gray-900 transition-colors duration-300 hover:bg-gray-100;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: inherit !important;
+    background-color: inherit !important;
+    outline: none;
+  }
+
+  .text-shadow {
+    text-shadow: rgba(0, 0, 0, 0.6) 1px 1px 1px;
+  }
+
+  .pulse-animation {
+    animation: pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .card-shadow {
+    box-shadow: 0px 8px 24px 0px rgba(107, 107, 107, 0.12),
+      0px 4px 4px 0px rgba(153, 154, 155, 0.04);
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.8;
+    }
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  @apply opacity-100 transition duration-300;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
+
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+  @apply opacity-100 transition duration-150;
+}
+
+.fade-fast-enter-from,
+.fade-fast-leave-to {
+  @apply opacity-0;
+}
+
+.text-mark {
+  background: #fff59d;
+}

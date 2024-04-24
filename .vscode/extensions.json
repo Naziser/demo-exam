@@ -1,3 +1,21 @@
 {
-  "recommendations": ["Vue.volar"]
+  "recommendations": [
+    "christian-kohler.path-intellisense",
+    "Vue.volar",
+    "Vue.vscode-typescript-vue-plugin",
+    "sdras.vue-vscode-snippets",
+    "bradlc.vscode-tailwindcss",
+    "austenc.tailwind-docs",
+    "PKief.material-icon-theme",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "figma.figma-vscode-extension",
+    "firefox-devtools.vscode-firefox-debug",
+    "adpyke.codesnap",
+    "lokalise.i18n-ally",
+    "GitHub.vscode-pull-request-github",
+    "GitHub.remotehub",
+    "github.vscode-github-actions",
+    "mhutchie.git-graph"
+  ]
 }
