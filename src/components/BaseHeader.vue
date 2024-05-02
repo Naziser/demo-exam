@@ -5,21 +5,17 @@ import { ChevronDownIcon } from '@heroicons/vue/16/solid';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import BaseLogo from '@/assets/icons/BaseLogo.vue';
 
-// import { useApi } from '@/composables/api';
 import { useProfileStore } from '@/stores/ProfileStore';
 
 import BaseButton from '@/components/UI/BaseButton.vue';
-// import { navigateToLocation } from '@/helpers/navigateToLocation';
 
 const router = useRouter();
 
-// const { signOut } = useApi();
-const { profileData } = useProfileStore();
+const profileStore = useProfileStore();
 
 async function exitClick() {
-  //   await signOut();
+  profileStore.token = '';
   router.push({ name: 'login' });
-  //   navigateToLocation({ name: 'login' });
 }
 </script>
 <template>
@@ -30,7 +26,7 @@ async function exitClick() {
     />
     <!-- <div class="h-6 border-r border-gray-200"></div> -->
     <div class="ml-auto flex items-center gap-3">
-      <span>{{ profileData!.full_name }}</span>
+      <span>{{ profileStore.profileData!.full_name }}</span>
       <Popover v-slot="{ open }" class="relative flex">
         <PopoverButton
           :class="{ 'rotate-180': open }"

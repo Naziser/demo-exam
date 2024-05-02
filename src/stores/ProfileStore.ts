@@ -6,6 +6,7 @@ import type { ProfileData } from '@/types/ProfileData';
 const { checkLogin, getUserProfile } = useApi();
 
 export const useProfileStore = defineStore('profile', () => {
+  const token = ref(localStorage.getItem('jwt') || '');
   const isAuthenticated = ref(false);
   const isAuthenticatedLoaded = ref(false);
 
@@ -25,9 +26,18 @@ export const useProfileStore = defineStore('profile', () => {
     else profileData.value = undefined;
   });
 
+  watch(token, (newValue) => {
+    localStorage.setItem('jwt', newValue);
+  });
+
   async function updateAuthStatus() {
-    isAuthenticated.value = (await checkLogin()).data.payload.active;
-    isAuthenticatedLoaded.value = true;
+    if (token.value === '') {
+      isAuthenticated.value = false;
+      isAuthenticatedLoaded.value = true;
+    } else {
+      isAuthenticated.value = (await checkLogin()).data.payload.active;
+      isAuthenticatedLoaded.value = true;
+    }
   }
 
   async function getProfileData() {
@@ -46,6 +56,7 @@ export const useProfileStore = defineStore('profile', () => {
   return {
     loading,
     errors,
+    token,
     isAuthenticated,
     isAuthenticatedLoaded,
     updateAuthStatus,

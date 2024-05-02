@@ -11,10 +11,12 @@ import { useNotificationsStore } from '@/stores/NotificationsStore';
 import { useApi } from '@/composables/api';
 import { useValidationRules } from '@/composables/validationRules';
 import { validateForm } from '@/helpers/validateForm';
+import { useProfileStore } from '@/stores/ProfileStore';
 
 const router = useRouter();
 const route = useRoute();
 const notificationsStore = useNotificationsStore();
+const profileStore = useProfileStore();
 const { signIn } = useApi();
 
 const formState = reactive({ login: '', password: '' });
@@ -38,7 +40,8 @@ async function onLoginFormSubmit() {
   if (!(await validateForm(loginV$))) return;
 
   signIn(formState)
-    .then(() => {
+    .then((res) => {
+      profileStore.token = res.data.token;
       router.push({ name: 'main' });
     })
     .catch((error: any) => {
