@@ -5,7 +5,7 @@
 @layer base {
   @font-face {
     font-family: 'RobotoFlex';
-    src: local('RobotoFlex'), url('./fonts/RobotoFlex.woff2') format('woff2-variations');
+    /* src: local('RobotoFlex'), url('./fonts/RobotoFlex.woff2') format('woff2-variations'); */
     font-style: oblique 0deg -10deg;
   }
   body {

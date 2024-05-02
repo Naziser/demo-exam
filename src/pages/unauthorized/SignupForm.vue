@@ -1,28 +1,29 @@
 <script setup lang="ts">
 import { reactive, computed, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
-// import axios from 'axios';
+import axios from 'axios';
 
 import BaseInput from '@/components/UI/BaseInput.vue';
 import BaseButton from '@/components/UI/BaseButton.vue';
 
 import useVuelidate from '@vuelidate/core';
-// import { useApi } from '@/composables/api';
+import { useApi } from '@/composables/api';
 import { useValidationRules } from '@/composables/validationRules';
 import { validateForm } from '@/helpers/validateForm';
-// import { useNotificationsStore } from '@/stores/NotificationsStore';
+import { useNotificationsStore } from '@/stores/NotificationsStore';
 
 import type { RouteName } from '@/types/RouteName';
 import type { SignupData } from '@/types/SignupData';
 
 const router = useRouter();
-// const notificationsStore = useNotificationsStore();
-// const { signUp } = useApi();
+const notificationsStore = useNotificationsStore();
+const { signUp } = useApi();
 
-const formState = reactive<Omit<SignupData, 'lang'>>({
+const formState = reactive<SignupData>({
   login: '',
-  name: '',
-  surname: '',
+  full_name: '',
+  email: '',
+  phone: '',
   password: '',
 });
 
@@ -32,25 +33,33 @@ const formElementsData = computed(() => {
       component: BaseInput,
       name: 'username',
       model: 'login',
+      label: 'Логин',
+      type: 'text',
+      placeholder: 'Введите логин',
+    },
+    {
+      component: BaseInput,
+      name: 'full-name',
+      model: 'full_name',
+      label: 'ФИО',
+      type: 'text',
+      placeholder: 'Укажите ваше ФИО',
+    },
+    {
+      component: BaseInput,
+      name: 'email',
+      model: 'email',
       label: 'Электронная почта',
       type: 'text',
-      placeholder: 'Введите электронную почту',
+      placeholder: 'Укажите вашу электронную почту',
     },
     {
       component: BaseInput,
-      name: 'given-name',
-      model: 'name',
-      label: 'Имя',
+      name: 'phone',
+      model: 'phone',
+      label: 'Телефон',
       type: 'text',
-      placeholder: 'Укажите ваше имя',
-    },
-    {
-      component: BaseInput,
-      name: 'family-name',
-      model: 'surname',
-      label: 'Фамилия',
-      type: 'text',
-      placeholder: 'Укажите вашу фамилию',
+      placeholder: 'Укажите ваш номер телефона',
     },
     {
       component: BaseInput,
@@ -64,13 +73,14 @@ const formElementsData = computed(() => {
 });
 
 const rules = computed(() => {
-  const { required, email, password, name, surname } = useValidationRules();
+  const { required } = useValidationRules();
 
   return {
-    login: { email, required },
-    name: { name, required },
-    surname: { surname, required },
-    password: { password, required },
+    login: { required },
+    full_name: { required },
+    email: { required },
+    phone: { required },
+    password: { required },
   };
 });
 
@@ -82,32 +92,36 @@ async function onSubmit() {
 
   router.push({
     name: 'signup-confirmation' satisfies RouteName,
-    query: { login: formState.login, name: formState.name },
+    query: { login: formState.login, name: formState.full_name },
   });
 
-  //   const signupParams: SignupData = {
-  //     lang: locale.value === 'ru' ? 'rus' : 'eng',
-  //     ...formState,
-  //   };
-  //   signUp(signupParams)
-  //     .then(() => {
-  //       router.push({
-  //         name: 'signup-confirmation' satisfies RouteName,
-  //         query: { login: signupParams.login, name: signupParams.name },
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       let errorMessage = t('notifications.error.generic');
-  //       if (axios.isAxiosError(error)) {
-  //         switch (error.response?.data.response.status) {
-  //           case 4002:
-  //             errorMessage = t('notifications.error.userExists');
-  //             break;
-  //         }
-  //       }
-  //       console.log(error);
-  //       notificationsStore.createNotification({ type: 'error', message: errorMessage });
-  //     });
+  const signupParams: SignupData = {
+    ...formState,
+  };
+  signUp(signupParams)
+    .then(() => {
+      notificationsStore.createNotification({
+        type: 'success',
+        message: 'Пользователь успешно зарегестрирован, можете войти в аккаунт.',
+      });
+      router.push({
+        name: 'signup-confirmation' satisfies RouteName,
+        query: { login: signupParams.login, name: signupParams.full_name },
+      });
+    })
+    .catch((error) => {
+      let errorMessage = 'Что-то пошло не так';
+      if (axios.isAxiosError(error)) {
+        switch (error.response?.data.response.status) {
+          case 4002:
+            errorMessage =
+              'Пользователь уже существует. Авторизуйтесь либо используйте для регистрации другую электронную почту.';
+            break;
+        }
+      }
+      console.log(error);
+      notificationsStore.createNotification({ type: 'error', message: errorMessage });
+    });
 }
 </script>
 

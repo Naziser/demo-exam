@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 
 import { ChevronDownIcon } from '@heroicons/vue/16/solid';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import BaseLogo from '@/assets/icons/BaseLogo.vue';
 
 // import { useApi } from '@/composables/api';
 import { useProfileStore } from '@/stores/ProfileStore';
@@ -23,7 +24,10 @@ async function exitClick() {
 </script>
 <template>
   <div class="flex items-center justify-between bg-gray-50 p-[16px] pe-[40px]">
-    <span>Logo</span>
+    <BaseLogo
+      class="h-8 w-8 text-green-900 hover:cursor-pointer"
+      @click="router.push({ name: 'main' })"
+    />
     <!-- <div class="h-6 border-r border-gray-200"></div> -->
     <div class="flex items-center gap-3">
       <span>{{ profileData!.initials }}</span>

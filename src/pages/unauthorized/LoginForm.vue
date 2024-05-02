@@ -61,7 +61,7 @@ async function onLoginFormSubmit() {
 }
 </script>
 <template>
-  <form class="flex w-full flex-col gap-8" @submit.prevent="onLoginFormSubmit">
+  <form class="flex w-full flex-col gap-6" @submit.prevent="onLoginFormSubmit">
     <div class="flex flex-col gap-6">
       <BaseInput
         id="username"

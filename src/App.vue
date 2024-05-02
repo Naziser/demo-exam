@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
-import { BaseToast } from '@srdata/vue-kit';
+import BaseToast from './components/UI/BaseToast.vue';
 
 import { useProfileStore } from '@/stores/ProfileStore';
 import { useNotificationsStore } from '@/stores/NotificationsStore';
