@@ -63,7 +63,7 @@ const hasCommonLayout = computed(() => {
       </div>
     </div>
   </div>
-  <div v-else></div>
+  <div v-else>Сервер недоступен</div>
 </template>
 
 <style>
