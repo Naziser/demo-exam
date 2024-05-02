@@ -1,5 +1,6 @@
-import type { ProfileData } from '@/types/ProfileData';
 import axios from 'axios';
+
+// import type { ProfileData } from '@/types/ProfileData';
 import type { LoginData } from '@/types/LoginData';
 import type { SignupData } from '@/types/SignupData';
 
@@ -24,23 +25,23 @@ export function useApi() {
     });
   }
 
-  function getUserProfile(): { data: ProfileData } {
-    return {
-      data: {
-        id: 1,
-        login: 'admin@srdata.ru',
-        full_name: 'Рындин Сергей Иванович',
-        phone: '88005553535',
-        email: 'SeregaSwapp@mail.ru',
-        role: 'USER',
-      },
-    };
-  }
+  // function getUserProfile(): { data: ProfileData } {
+  //   return {
+  //     data: {
+  //       id: 1,
+  //       login: 'admin@srdata.ru',
+  //       full_name: 'Рындин Сергей Иванович',
+  //       phone: '88005553535',
+  //       email: 'SeregaSwapp@mail.ru',
+  //       role: 'USER',
+  //     },
+  //   };
+  // }
 
   return {
     checkLogin,
     signIn,
     signUp,
-    getUserProfile,
+    // getUserProfile,
   };
 }

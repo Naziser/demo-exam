@@ -1,16 +1,18 @@
 import { ref, reactive, watch } from 'vue';
 import { defineStore } from 'pinia';
-import { useApi } from '@/composables/api';
-import type { ProfileData } from '@/types/ProfileData';
+import { jwtDecode } from 'jwt-decode';
 
-const { checkLogin, getUserProfile } = useApi();
+import { useApi } from '@/composables/api';
+// import type { ProfileData } from '@/types/ProfileData';
+
+const { checkLogin } = useApi();
 
 export const useProfileStore = defineStore('profile', () => {
   const token = ref(localStorage.getItem('jwt') || '');
   const isAuthenticated = ref(false);
   const isAuthenticatedLoaded = ref(false);
 
-  const profileData = ref<ProfileData>();
+  const profileData = ref<any>();
 
   const loading = reactive({
     get: false,
@@ -45,7 +47,7 @@ export const useProfileStore = defineStore('profile', () => {
     errors.get = false;
 
     try {
-      profileData.value = (await getUserProfile()).data;
+      profileData.value = jwtDecode(token.value);
     } catch {
       errors.get = true;
     }

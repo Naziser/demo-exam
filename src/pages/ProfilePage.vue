@@ -1,17 +1,12 @@
 <script setup lang="ts">
+import { useProfileStore } from '@/stores/ProfileStore';
+import { useNameFormatter } from '@/helpers/nameFormatter';
+
 import MainContentWrapper from '@/components/MainContentWrapper.vue';
 import BaseContentBlock from '@/components/UI/BaseContentBlock.vue';
 // import BaseInput from '@/components/UI/BaseInput.vue';
-import { reactive } from 'vue';
 
-const profileFormState = reactive({
-  surname: 'Рындин',
-  name: 'Сергей',
-  patronymic: 'Иванович',
-  phone: '+ 7 918 603 63 91',
-  email: 'SeregaSwapp@mail.ru',
-  login: 'Naziser',
-});
+const profileStore = useProfileStore();
 </script>
 
 <template>
@@ -27,47 +22,65 @@ const profileFormState = reactive({
         <table class="text-s text-gray-950 [&_td]:py-4 first:[&_td]:pe-6 [&_tr]:border-gray-100">
           <tbody>
             <tr class="border-b">
+              <td class="font-extralight">Логин</td>
+              <td>
+                <!-- <BaseInput v-model="profileFormState.name" disabled :placeholder="'Введите имя'" /> -->
+                <span>{{ profileStore.profileData.login }}</span>
+              </td>
+            </tr>
+            <tr class="border-b">
               <td class="font-extralight">Фамилия</td>
               <td>
                 <!-- <BaseInput v-model="profileFormState.surname" :placeholder="'Введите фамилию'" /> -->
-                <span>{{ profileFormState.surname }}</span>
+                <span>{{ useNameFormatter(profileStore.profileData.full_name, 'surname') }}</span>
               </td>
             </tr>
             <tr class="border-b">
               <td class="font-extralight">Имя</td>
               <td>
-                <!-- <BaseInput v-model="profileFormState.name" disabled :placeholder="'Введите имя'" /> -->
-                <span>{{ profileFormState.name }}</span>
+                <!-- <BaseInput v-model="profileFormState.surname" :placeholder="'Введите фамилию'" /> -->
+                <span>{{ useNameFormatter(profileStore.profileData.full_name, 'name') }}</span>
               </td>
             </tr>
             <tr class="border-b">
               <td class="font-extralight">Отчество</td>
               <td>
-                <!-- <BaseInput
-                  v-model="profileFormState.patronymic"
-                  :placeholder="'Введите отчество'"
-                /> -->
-                <span>{{ profileFormState.patronymic }}</span>
+                <!-- <BaseInput v-model="profileFormState.surname" :placeholder="'Введите фамилию'" /> -->
+                <span>{{
+                  useNameFormatter(profileStore.profileData.full_name, 'patronimyc')
+                }}</span>
               </td>
             </tr>
             <tr class="border-b">
               <td class="font-extralight">Телефон</td>
               <td>
                 <!-- <BaseInput
-                  v-model="profileFormState.phone"
-                  :placeholder="'Введите номер телефона'"
+                  v-model="profileFormState.patronymic"
+                  :placeholder="'Введите отчество'"
                 /> -->
-                <span>{{ profileFormState.phone }}</span>
+                <span>{{ profileStore.profileData.phone }}</span>
               </td>
             </tr>
             <tr class="border-b">
               <td class="font-extralight">Электронная почта</td>
               <td>
                 <!-- <BaseInput
+                  v-model="profileFormState.phone"
+                  :placeholder="'Введите номер телефона'"
+                /> -->
+                <span>{{ profileStore.profileData.email }}</span>
+              </td>
+            </tr>
+            <tr class="border-b">
+              <td class="font-extralight">Роль</td>
+              <td>
+                <!-- <BaseInput
                   v-model="profileFormState.email"
                   :placeholder="'Введите электронную почту'"
                 /> -->
-                <span>{{ profileFormState.email }}</span>
+                <span>{{
+                  profileStore.profileData.role === 'ADMIN' ? 'Администратор' : 'Пользователь'
+                }}</span>
               </td>
             </tr>
           </tbody>

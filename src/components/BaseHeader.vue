@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-
-import { ChevronDownIcon } from '@heroicons/vue/16/solid';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
-import BaseLogo from '@/assets/icons/BaseLogo.vue';
+import { ChevronDownIcon } from '@heroicons/vue/16/solid';
 
 import { useProfileStore } from '@/stores/ProfileStore';
+import { useNameFormatter } from '@/helpers/nameFormatter';
 
+import BaseLogo from '@/assets/icons/BaseLogo.vue';
 import BaseButton from '@/components/UI/BaseButton.vue';
 
 const router = useRouter();
@@ -26,7 +26,7 @@ async function exitClick() {
     />
     <!-- <div class="h-6 border-r border-gray-200"></div> -->
     <div class="ml-auto flex items-center gap-3">
-      <span>{{ profileStore.profileData!.full_name }}</span>
+      <span>{{ useNameFormatter(profileStore.profileData.full_name, 'initials') }}</span>
       <Popover v-slot="{ open }" class="relative flex">
         <PopoverButton
           :class="{ 'rotate-180': open }"
