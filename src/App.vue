@@ -15,7 +15,7 @@ const notificationsStore = useNotificationsStore();
 const route = useRoute();
 
 const hasCommonLayout = computed(() => {
-  const uncommonLayoutPages: RouteName[] = ['login', 'signup', 'signup-confirmation'];
+  const uncommonLayoutPages: RouteName[] = ['login', 'signup'];
   if (uncommonLayoutPages.includes(route.name as RouteName)) {
     return false;
   }

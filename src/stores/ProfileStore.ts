@@ -26,7 +26,7 @@ export const useProfileStore = defineStore('profile', () => {
   });
 
   async function updateAuthStatus() {
-    isAuthenticated.value = (await checkLogin()).data.active;
+    isAuthenticated.value = (await checkLogin()).data.payload.active;
     isAuthenticatedLoaded.value = true;
   }
 

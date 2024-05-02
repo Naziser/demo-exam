@@ -5,7 +5,7 @@ import BaseHeader from './BaseHeader.vue';
   <div class="flex h-full min-h-screen overflow-hidden">
     <div class="flex h-full w-full flex-col bg-gray-100">
       <BaseHeader />
-      <div class="w-full flex-1 overflow-scroll p-[16px] pe-[40px]">
+      <div class="w-full flex-1 overflow-scroll p-[16px]">
         <slot name="content" />
       </div>
     </div>

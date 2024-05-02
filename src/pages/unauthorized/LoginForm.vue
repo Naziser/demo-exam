@@ -2,20 +2,20 @@
 import { reactive, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
-// import axios from 'axios';
+import axios from 'axios';
 
 import BaseButton from '@/components/UI/BaseButton.vue';
 import BaseInput from '@/components/UI/BaseInput.vue';
 
-// import { useNotificationsStore } from '@/stores/NotificationsStore';
-// import { useApi } from '@/composables/api';
+import { useNotificationsStore } from '@/stores/NotificationsStore';
+import { useApi } from '@/composables/api';
 import { useValidationRules } from '@/composables/validationRules';
 import { validateForm } from '@/helpers/validateForm';
 
 const router = useRouter();
 const route = useRoute();
-// const notificationsStore = useNotificationsStore();
-// const { signIn } = useApi();
+const notificationsStore = useNotificationsStore();
+const { signIn } = useApi();
 
 const formState = reactive({ login: '', password: '' });
 
@@ -24,40 +24,38 @@ if (route.query.login) {
 }
 
 const loginFormRules = computed(() => {
-  const { required, email } = useValidationRules();
+  const { required, password } = useValidationRules();
 
   return {
-    login: { email, required },
-    password: { required },
+    login: { required },
+    password: { password, required },
   };
 });
 
 const loginV$ = useVuelidate(loginFormRules.value, formState);
 
-// const signInAction = (action: any) => {
-//   action(formState)
-//     .then(() => {
-//       const routeName = route.path.includes('/admin') ? 'admin-projects' : 'main';
-//       router.push({ name: routeName });
-//     })
-//     .catch((error: any) => {
-//       let errorMessage = 'Что-то пошло не так.';
-//       if (axios.isAxiosError(error)) {
-//         switch (error.response?.data.response.status) {
-//           case 4003:
-//             errorMessage = 'Не удалось войти. Вы ввели неверный логин или пароль.';
-//             break;
-//         }
-//       }
-//       console.log(error);
-//       notificationsStore.createNotification({ type: 'error', message: errorMessage });
-//     });
-// };
-
 async function onLoginFormSubmit() {
   if (!(await validateForm(loginV$))) return;
-  // Тут надо будет дернуть запрос signIn и если все хорошо, то в then перенаправлять на main страницу
-  router.push({ name: 'main' });
+
+  signIn(formState)
+    .then(() => {
+      router.push({ name: 'main' });
+    })
+    .catch((error: any) => {
+      let errorMessage = 'Что-то пошло не так.';
+      if (axios.isAxiosError(error)) {
+        switch (error.response?.data.response.status) {
+          case 400:
+            errorMessage = 'Ошибка авторизации';
+            break;
+          case 403:
+            errorMessage = 'Не удалось войти. Вы ввели неверный логин или пароль.';
+            break;
+        }
+      }
+      console.log(error);
+      notificationsStore.createNotification({ type: 'error', message: errorMessage });
+    });
 }
 </script>
 <template>
@@ -68,8 +66,8 @@ async function onLoginFormSubmit() {
         v-model="formState.login"
         :error="loginV$.login ? loginV$.login.$error : false"
         name="username"
-        :label="'Электронная почта'"
-        :placeholder="'Введите электронную почту'"
+        :label="'Логин'"
+        :placeholder="'Введите логин'"
         autocapitalize="off"
         autocomplete="email"
         autocorrect="off"

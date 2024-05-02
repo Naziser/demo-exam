@@ -90,11 +90,6 @@ async function onSubmit() {
   const isFormCorrect = await validateForm(v$);
   if (!isFormCorrect) return;
 
-  router.push({
-    name: 'signup-confirmation' satisfies RouteName,
-    query: { login: formState.login, name: formState.full_name },
-  });
-
   const signupParams: SignupData = {
     ...formState,
   };
@@ -105,15 +100,14 @@ async function onSubmit() {
         message: 'Пользователь успешно зарегестрирован, можете войти в аккаунт.',
       });
       router.push({
-        name: 'signup-confirmation' satisfies RouteName,
-        query: { login: signupParams.login, name: signupParams.full_name },
+        name: 'login' satisfies RouteName,
       });
     })
     .catch((error) => {
       let errorMessage = 'Что-то пошло не так';
       if (axios.isAxiosError(error)) {
         switch (error.response?.data.response.status) {
-          case 4002:
+          case 400:
             errorMessage =
               'Пользователь уже существует. Авторизуйтесь либо используйте для регистрации другую электронную почту.';
             break;

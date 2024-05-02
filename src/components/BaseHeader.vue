@@ -23,14 +23,14 @@ async function exitClick() {
 }
 </script>
 <template>
-  <div class="flex items-center justify-between bg-gray-50 p-[16px] pe-[40px]">
+  <div class="flex items-center bg-gray-50 p-[16px] pe-[40px]">
     <BaseLogo
       class="h-8 w-8 text-green-900 hover:cursor-pointer"
       @click="router.push({ name: 'main' })"
     />
     <!-- <div class="h-6 border-r border-gray-200"></div> -->
-    <div class="flex items-center gap-3">
-      <span>{{ profileData!.initials }}</span>
+    <div class="ml-auto flex items-center gap-3">
+      <span>{{ profileData!.full_name }}</span>
       <Popover v-slot="{ open }" class="relative flex">
         <PopoverButton
           :class="{ 'rotate-180': open }"

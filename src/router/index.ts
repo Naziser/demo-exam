@@ -3,7 +3,6 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import AuthorizationPage from '@/pages/unauthorized/AuthorizationPage.vue';
 import LoginForm from '@/pages/unauthorized/LoginForm.vue';
 import SignupForm from '@/pages/unauthorized/SignupForm.vue';
-import SignupConfirmationPage from '@/pages/unauthorized/SignupConfirmationPage.vue';
 import MainPage from '@/pages/MainPage.vue';
 import ProfilePage from '@/pages/ProfilePage.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
@@ -27,7 +26,6 @@ export const routes = [
     children: [
       { path: 'login', name: 'login', component: LoginForm },
       { path: 'signup', name: 'signup', component: SignupForm },
-      { path: 'confirm', name: 'signup-confirmation', component: SignupConfirmationPage },
     ],
   },
   {
