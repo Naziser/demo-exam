@@ -24,12 +24,15 @@ export function useApi() {
     });
   }
 
-  function getProfileStatements() {
-    return axios.get('http://localhost:8080/api/statements/my-statements', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-      },
-    });
+  function getProfileStatements(viewParams: { count: number; offset: number }) {
+    return axios.get(
+      `http://localhost:8080/api/statements/my-statements?count=${viewParams.count}&offset=${viewParams.offset}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+      }
+    );
   }
 
   function createStatement(data: StatementData) {

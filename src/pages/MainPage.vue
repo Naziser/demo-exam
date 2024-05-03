@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, reactive, ref } from 'vue';
+import { onBeforeMount, reactive, ref, watch } from 'vue';
 
 import { useApi } from '@/composables/api';
 
@@ -9,6 +9,7 @@ import type { StatementData } from '@/types/StatementData';
 import BaseButton from '@/components/UI/BaseButton.vue';
 import BaseModal from '@/components/UI/BaseModal.vue';
 import BaseInput from '@/components/UI/BaseInput.vue';
+import BasePagination from '@/components/UI/BasePagination.vue';
 import MainContentWrapper from '../components/MainContentWrapper.vue';
 import BaseContentBlock from '@/components/UI/BaseContentBlock.vue';
 
@@ -16,6 +17,24 @@ const { getProfileStatements, createStatement } = useApi();
 
 const statements = ref<any>([]);
 const isModalOpen = ref<boolean>(false);
+const currentPage = ref(1);
+const totalPages = ref(1);
+
+const viewParams = reactive({
+  count: 8, // число проектов на страницу
+  offset: 0,
+});
+
+watch(
+  () => viewParams,
+  async () => {
+    fetchStatements();
+    if (currentPage.value > totalPages.value) {
+      changeCurrentPage(1);
+    }
+  },
+  { deep: true }
+);
 
 const modalValues = reactive<StatementData>({
   vehicleRegistrationNumber: '',
@@ -23,8 +42,9 @@ const modalValues = reactive<StatementData>({
 });
 
 function fetchStatements() {
-  getProfileStatements().then((res) => {
-    statements.value = res.data;
+  getProfileStatements(viewParams).then((res) => {
+    statements.value = res.data.statements;
+    totalPages.value = Math.ceil(res.data.totalItems / viewParams.count);
   });
 }
 
@@ -35,6 +55,14 @@ function createStatementRow() {
     modalValues.vehicleRegistrationNumber = '';
     modalValues.violationDescription = '';
   });
+}
+
+function changeCurrentPage(newCurrentPage: number) {
+  currentPage.value = newCurrentPage;
+}
+
+function changeProjectsOffset(newProjectsOffset: number) {
+  viewParams.offset = newProjectsOffset;
 }
 
 onBeforeMount(() => {
@@ -78,6 +106,15 @@ onBeforeMount(() => {
               </span>
             </div>
           </div>
+          <BasePagination
+            class="flex-[0_0_auto]"
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            :items-count="viewParams.count"
+            :items-offset="viewParams.offset"
+            @update:current-page="changeCurrentPage"
+            @update:offset-items="changeProjectsOffset"
+          ></BasePagination>
         </BaseContentBlock>
       </div>
     </template>
