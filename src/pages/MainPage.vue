@@ -81,7 +81,7 @@ onBeforeMount(() => {
           <BaseButton @click="isModalOpen = true">Добавить</BaseButton>
         </BaseContentBlock>
         <BaseContentBlock
-          class="flex min-h-full flex-1 flex-col gap-6 rounded-md bg-gray-50 px-6 py-2 shadow-sm"
+          class="flex flex-1 flex-col gap-6 rounded-md bg-gray-50 px-6 py-2 shadow-sm"
         >
           <div class="grid-container px-2 py-3">
             <div class="font-extralight">Номер заявления</div>
