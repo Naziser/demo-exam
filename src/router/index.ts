@@ -5,6 +5,7 @@ import LoginForm from '@/pages/unauthorized/LoginForm.vue';
 import SignupForm from '@/pages/unauthorized/SignupForm.vue';
 import MainPage from '@/pages/MainPage.vue';
 import ProfilePage from '@/pages/ProfilePage.vue';
+import StatementDetail from '@/pages/StatementDetail.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import { useProfileStore } from '@/stores/ProfileStore';
@@ -32,6 +33,11 @@ export const routes = [
     path: '/main',
     name: 'main',
     component: MainPage,
+  },
+  {
+    path: '/statement-detail',
+    name: 'StatementDetail',
+    component: StatementDetail,
   },
   {
     path: '/profile',

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeMount, reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useApi } from '@/composables/api';
 
@@ -14,6 +15,7 @@ import MainContentWrapper from '../components/MainContentWrapper.vue';
 import BaseContentBlock from '@/components/UI/BaseContentBlock.vue';
 
 const { getProfileStatements, createStatement } = useApi();
+const router = useRouter();
 
 const statements = ref<any>([]);
 const isModalOpen = ref<boolean>(false);
@@ -94,6 +96,7 @@ onBeforeMount(() => {
               v-for="statement in statements"
               :key="statement.id"
               class="grid-container mb-4 cursor-pointer rounded-md border px-3 py-4 transition-all duration-300 hover:bg-gray-100 [&>span]:self-center"
+              @click="router.push({ name: 'StatementDetail', query: { id: statement.id } })"
             >
               <span class="truncate text-m">Заявление#{{ statement.id }}</span>
               <span class="text-m">{{ statement.vehicle_registration_number }}</span>

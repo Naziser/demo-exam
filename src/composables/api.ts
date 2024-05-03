@@ -35,6 +35,14 @@ export function useApi() {
     );
   }
 
+  function getProfileStatementsById(id: number) {
+    return axios.get(`http://localhost:8080/api/statements/statement?id=${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
+    });
+  }
+
   function createStatement(data: StatementData) {
     return axios.post('http://localhost:8080/api/statements/create-statement', data, {
       headers: {
@@ -48,6 +56,7 @@ export function useApi() {
     signIn,
     signUp,
     getProfileStatements,
+    getProfileStatementsById,
     createStatement,
   };
 }
