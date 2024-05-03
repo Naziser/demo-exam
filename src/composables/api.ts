@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { LoginData } from '@/types/LoginData';
 import type { SignupData } from '@/types/SignupData';
+import type { StatementData } from '@/types/StatementData';
 
 export function useApi() {
   function checkLogin() {
@@ -31,10 +32,19 @@ export function useApi() {
     });
   }
 
+  function createStatement(data: StatementData) {
+    return axios.post('http://localhost:8080/api/statements/create-statement', data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
+    });
+  }
+
   return {
     checkLogin,
     signIn,
     signUp,
     getProfileStatements,
+    createStatement,
   };
 }
